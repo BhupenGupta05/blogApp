@@ -10,20 +10,20 @@ const api = supertest(app)
 
 const initialBlogs = [
   {
-      _id: "5a422a851b54a676234d17f7",
-      title: "React patterns",
-      author: "Michael Chan",
-      url: "https://reactpatterns.com/",
-      likes: 7,
-      __v: 0
+    _id: '5a422a851b54a676234d17f7',
+    title: 'React patterns',
+    author: 'Michael Chan',
+    url: 'https://reactpatterns.com/',
+    likes: 7,
+    __v: 0
   },
   {
-      _id: "5a422aa71b54a676234d17f8",
-      title: "Go To Statement Considered Harmful",
-      author: "Edsger W. Dijkstra",
-      url: "http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html",
-      likes: 5,
-      __v: 0
+    _id: '5a422aa71b54a676234d17f8',
+    title: 'Go To Statement Considered Harmful',
+    author: 'Edsger W. Dijkstra',
+    url: 'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
+    likes: 5,
+    __v: 0
   },
 ]
 
@@ -51,8 +51,8 @@ describe('POST /api/users', () => {
       username: 'testUser',
       name: 'Test User',
       password: 'testPassword',
-    };
-  
+    }
+
     await api
       .post('/api/users')
       .send(newUser)
@@ -73,12 +73,12 @@ describe('POST /api/users', () => {
       username: 'Us',
       password: 'testPassword',
     }
-  
+
     const response = await api
       .post('/api/users')
       .send(newUser)
       .expect(400)
-  
+
     console.log('Response body:', response.body)
     expect(response.body).toHaveProperty('error', 'Username and password must be at least 3 characters long.')
   })
@@ -90,13 +90,13 @@ describe('POST /api/users', () => {
       username: 'testUser01',
       password: 'Pa',
     }
-  
+
     try {
       const response = await api
         .post('/api/users')
         .send(newUser)
         .expect(400)
-  
+
       console.log('Response body:', response.body)
       expect(response.body).toHaveProperty('error', 'Username and password must be at least 3 characters long.')
     } catch (error) {
@@ -111,13 +111,13 @@ describe('POST /api/users', () => {
       username: 'testUser',
       password: 'testPassword',
     }
-  
+
     try {
       const response = await api
         .post('/api/users')
         .send(newUser)
         .expect(400)
-  
+
       console.log('Response body:', response.body)
       expect(response.body).toHaveProperty('error', 'Username must be unique.')
     } catch (error) {
@@ -138,7 +138,7 @@ describe('GET /api/blog', () => {
 
   test('all blogs are returned', async () => {
     const response = await api.get('/api/blogs')
-  
+
     expect(response.body).toHaveLength(initialBlogs.length)
   })
 
@@ -146,8 +146,8 @@ describe('GET /api/blog', () => {
 
   test('a specific blog within the returned blog', async () => {
     const response = await api.get('/api/blogs')
-  
-    const contents = response.body.map(r => r.title)  
+
+    const contents = response.body.map(r => r.title)
     expect(contents).toContain('Go To Statement Considered Harmful')
   })
 
@@ -156,10 +156,10 @@ describe('GET /api/blog', () => {
   test('Blog posts have "id" property instead of "_id"', async() => {
     const response = await api.get('/api/blogs')
     const blogs = response.body
-  
+
     expect(response.status).toBe(200)
     expect(blogs).toBeDefined()
-  
+
     blogs.forEach((blog) => {
       expect(blog.id).toBeDefined() // Check if "id" property is defined
       expect(blog._id).toBeUndefined() // Check if "_id" property is undefined
@@ -171,20 +171,20 @@ describe('GET /api/blog', () => {
 describe('POST /api/blogs', () => {
   test('a blog can be added', async () => {
     const newBlog = {
-      title: "async/await simplifies making async calls",
-      author: "Bhupen Gupta",
-      url: "https://reactpatterns.com/",
+      title: 'async/await simplifies making async calls',
+      author: 'Bhupen Gupta',
+      url: 'https://reactpatterns.com/',
       likes: 10
     }
-  
+
     const initialCount = await Blog.countDocuments()
-  
+
     const response = await api
-    .post('/api/blogs')
-    .send(newBlog)
-    .expect(201)
-    .expect('Content-Type', /application\/json/)
-  
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+
     const updatedCount = await Blog.countDocuments()
     expect(updatedCount).toBe(initialCount + 1)
 
@@ -206,10 +206,10 @@ describe('POST /api/blogs', () => {
       author: 'Test Author',
       url: 'https://example.com',
     }
-  
+
     const response = await api.post('/api/blogs').send(newBlog)
-    const savedBlog = response.body;
-  
+    const savedBlog = response.body
+
     expect(response.status).toBe(201)
     expect(savedBlog.likes).toBeDefined()
     expect(savedBlog.likes).toBe(0)
@@ -219,16 +219,16 @@ describe('POST /api/blogs', () => {
 
   test('a blog without title or url cannot be added', async() => {
     const newBlog = {
-      author: "Test author"
+      author: 'Test author'
     }
-  
+
     await api
-    .post('/api/blogs')
-    .send(newBlog)
-    .expect(400)
-  
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(400)
+
     const response = await api.get('/api/blogs')
-  
+
     expect(response.body).toHaveLength(initialBlogs.length)
   })
 })
@@ -237,17 +237,17 @@ describe('DELETE /api/blog/:id', () => {
   test('deletes a blog post by ID', async() => {
     const newBlog = new Blog({
       title: 'Test Blog',
-        author: 'Test Author',
-        url: 'https://example.com',
-        likes: 10,
+      author: 'Test Author',
+      url: 'https://example.com',
+      likes: 10,
     })
-  
+
     const savedBlog = await newBlog.save()
-  
+
     await api
-    .delete(`/api/blogs/${savedBlog._id}`)
-    .expect(204)
-  
+      .delete(`/api/blogs/${savedBlog._id}`)
+      .expect(204)
+
     const deletedBlog = await Blog.findById(savedBlog._id)
     expect(deletedBlog).toBeNull()
   })
@@ -255,10 +255,10 @@ describe('DELETE /api/blog/:id', () => {
 
 
   test('returns 404 if the blog post is not found', async () => {
-    const nonExistingId = '5fb50c78d4d2f3c9534dbaaa'; 
-  
-    await api.delete(`/api/blogs/${nonExistingId}`).expect(404);
-  });
+    const nonExistingId = '5fb50c78d4d2f3c9534dbaaa'
+
+    await api.delete(`/api/blogs/${nonExistingId}`).expect(404)
+  })
 })
 
 afterAll(async () => {
