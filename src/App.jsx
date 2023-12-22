@@ -126,7 +126,7 @@ const App = () => {
     
     <ul className="mx-2">
       {user && blogs.map((blog, index) => (
-      <Blog key={blog._id || index} blog={blog} updateBlogs={updateBlogs} />
+      <Blog key={blog._id || index} user={user} blog={blog} updateBlogs={updateBlogs} />
       ))}
     </ul>
     

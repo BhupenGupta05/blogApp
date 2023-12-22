@@ -1,7 +1,7 @@
 import blogService from '../services/blogs'
 import { useState, useEffect, useReducer } from "react"
 
-const Blog = ({blog, updateBlogs}) => {
+const Blog = ({user, blog, updateBlogs}) => {
   const [showDetails, setShowDetails] = useState(false)
   const [likes, setLikes] = useState(blog.likes || 0)
 
@@ -23,6 +23,18 @@ const Blog = ({blog, updateBlogs}) => {
     }
   }
 
+  const handleDelete = async () => {
+    if(window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
+      try {
+        await blogService.remove(blog.id)
+        // Fetch updated list of blogs after deletion
+        updateBlogs()
+      } catch(error) {
+        console.log("Error deleting blog:", error)
+      }
+    }
+  }
+
   useEffect(() => {
     // Update likes state when the blog prop changes
     setLikes(blog.likes || 0)
@@ -34,6 +46,7 @@ const Blog = ({blog, updateBlogs}) => {
         {blog.title} {blog.author} {' '}
         <button onClick={toggleDetails} className="px-4 py-1 bg-slate-200 rounded-md" >{showDetails ? 'hide' : 'view'}</button>
       </div>
+    
 
       {/* I might face this problem again */}
 
@@ -45,6 +58,11 @@ const Blog = ({blog, updateBlogs}) => {
         <p>{blog.url}</p>
         <p>{likes}<button className="px-2 py-1 bg-slate-200 rounded-md" onClick={handleLikes}>like</button> </p>
         {blog.user && <p>Added by: {blog.user.name}</p>}
+
+        {/* delete button is shown only to the user who has added the blog post */}
+        {user && blog.user && user.username === blog.user.username && (
+        <button className='px-1 py-1 mt-2 bg-blue-500 rounded-md' onClick={handleDelete}>remove</button>
+        )}
       </div>
       )}
     </div>
