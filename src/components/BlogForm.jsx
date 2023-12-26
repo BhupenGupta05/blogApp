@@ -30,17 +30,17 @@ const BlogForm = ({ createBlog }) => {
       <form onSubmit={addBlog}>
         <div>
                 Title :
-          <input name="title" value={newBlog.title} onChange={(e) => setNewBlog({ ...newBlog, title: e.target.value })} className=" bg-slate-300 px-4 py-1 my-1 outline-none rounded-md ml-2"/>
+          <input id='title' name="title" value={newBlog.title} onChange={(e) => setNewBlog({ ...newBlog, title: e.target.value })} className=" bg-slate-300 px-4 py-1 my-1 outline-none rounded-md ml-2"/>
         </div>
 
         <div>
                 Author :
-          <input name="author" value={newBlog.author} onChange={(e) => setNewBlog({ ...newBlog, author: e.target.value })} className=" bg-slate-300 px-4 py-1 my-1 outline-none rounded-md ml-2"/>
+          <input id='author' name="author" value={newBlog.author} onChange={(e) => setNewBlog({ ...newBlog, author: e.target.value })} className=" bg-slate-300 px-4 py-1 my-1 outline-none rounded-md ml-2"/>
         </div>
 
         <div>
                 URL :
-          <input name="url" value={newBlog.url} onChange={(e) => setNewBlog({ ...newBlog, url: e.target.value })} className=" bg-slate-300 px-4 py-1 my-1 outline-none rounded-md ml-2"/>
+          <input id='url' name="url" value={newBlog.url} onChange={(e) => setNewBlog({ ...newBlog, url: e.target.value })} className=" bg-slate-300 px-4 py-1 my-1 outline-none rounded-md ml-2"/>
         </div>
 
         <button type="submit" className="px-4 py-1 bg-slate-200 rounded-md mb-2" >Save</button>
