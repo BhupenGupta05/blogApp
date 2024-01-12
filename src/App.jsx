@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { showNotification } from './reducers/notificationReducer'
+import { setUser, clearUser } from './reducers/userReducer'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import Blog from './components/Blog'
@@ -12,11 +13,11 @@ import BlogForm from './components/BlogForm'
 const App = () => {
 
   const dispatch = useDispatch()
+  const user = useSelector((state) => state.user)
 
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [user, setUser] = useState(null)
 
   const blogFormRef = useRef()
 
@@ -31,7 +32,7 @@ const App = () => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
-      setUser(user)
+      dispatch(setUser(user))
       blogService.setToken(user.token)
     }
   }, [])
@@ -42,7 +43,7 @@ const App = () => {
       const user = await loginService.login({ username, password })
       window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user))
       blogService.setToken(user.token)
-      setUser(user)
+      dispatch(setUser(user))
       setUsername('')
       setPassword('')
       // Update blogs after login
@@ -57,7 +58,7 @@ const App = () => {
 
   const handleLogout = () => {
     window.localStorage.removeItem('loggedBlogAppUser')
-    setUser(null)
+    dispatch(setUser(null))
     blogService.setToken(null)
   }
 
