@@ -1,4 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
+import { useDispatch } from 'react-redux'
+import { showNotification } from './reducers/notificationReducer'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import Blog from './components/Blog'
@@ -9,8 +11,9 @@ import BlogForm from './components/BlogForm'
 
 const App = () => {
 
+  const dispatch = useDispatch()
+
   const [blogs, setBlogs] = useState([])
-  const [errorMessage, setErrorMessage] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
@@ -43,14 +46,12 @@ const App = () => {
       setUsername('')
       setPassword('')
       // Update blogs after login
+      dispatch(showNotification(`${user.name} logged in`, 5))
       updateBlogs()
     } catch (exception) {
-      setErrorMessage('Wrong credentials')
+      dispatch(showNotification(`Wrong credentials`, 5))
       setUsername('')
       setPassword('')
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
     }
   }
 
@@ -69,10 +70,7 @@ const App = () => {
       .then(returnedBlog => {
         setBlogs(blogs.concat(returnedBlog))
 
-        setErrorMessage(`A new blog ${blogObj.title} by ${blogObj.author} added`)
-        setTimeout(() => {
-          setErrorMessage(null)
-        }, 5000)
+        dispatch(showNotification(`A new blog ${blogObj.title} by ${blogObj.author} added`, 5))
       })
   }
 
@@ -93,7 +91,7 @@ const App = () => {
       setBlogs(sortedBlogs)
     } catch (error) {
       console.error('Error fetching blogs:', error.message)
-      setErrorMessage('Failed to fetch blogs. Please try again later.')
+      dispatch(showNotification(`Failed to fetch blogs. Please try again later.`, 5))
     }
   }
 
@@ -116,7 +114,7 @@ const App = () => {
   return (
     <div>
       <h2 className="text-4xl font-semibold my-2 mx-4 mb-4">Blogs</h2>
-      <Notification message = {errorMessage} />
+      <Notification />
 
       {!user && loginForm()}
       {user && <div>
