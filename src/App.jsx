@@ -1,4 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { showNotification } from './reducers/notificationReducer'
+import { setUser, clearUser } from './reducers/userReducer'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import Blog from './components/Blog'
@@ -9,11 +12,12 @@ import BlogForm from './components/BlogForm'
 
 const App = () => {
 
+  const dispatch = useDispatch()
+  const user = useSelector((state) => state.user)
+
   const [blogs, setBlogs] = useState([])
-  const [errorMessage, setErrorMessage] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [user, setUser] = useState(null)
 
   const blogFormRef = useRef()
 
@@ -28,7 +32,7 @@ const App = () => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
-      setUser(user)
+      dispatch(setUser(user))
       blogService.setToken(user.token)
     }
   }, [])
@@ -39,24 +43,22 @@ const App = () => {
       const user = await loginService.login({ username, password })
       window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user))
       blogService.setToken(user.token)
-      setUser(user)
+      dispatch(setUser(user))
       setUsername('')
       setPassword('')
       // Update blogs after login
+      dispatch(showNotification(`${user.name} logged in`, 5))
       updateBlogs()
     } catch (exception) {
-      setErrorMessage('Wrong credentials')
+      dispatch(showNotification(`Wrong credentials`, 5))
       setUsername('')
       setPassword('')
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
     }
   }
 
   const handleLogout = () => {
     window.localStorage.removeItem('loggedBlogAppUser')
-    setUser(null)
+    dispatch(setUser(null))
     blogService.setToken(null)
   }
 
@@ -69,10 +71,7 @@ const App = () => {
       .then(returnedBlog => {
         setBlogs(blogs.concat(returnedBlog))
 
-        setErrorMessage(`A new blog ${blogObj.title} by ${blogObj.author} added`)
-        setTimeout(() => {
-          setErrorMessage(null)
-        }, 5000)
+        dispatch(showNotification(`A new blog ${blogObj.title} by ${blogObj.author} added`, 5))
       })
   }
 
@@ -93,7 +92,7 @@ const App = () => {
       setBlogs(sortedBlogs)
     } catch (error) {
       console.error('Error fetching blogs:', error.message)
-      setErrorMessage('Failed to fetch blogs. Please try again later.')
+      dispatch(showNotification(`Failed to fetch blogs. Please try again later.`, 5))
     }
   }
 
@@ -116,7 +115,7 @@ const App = () => {
   return (
     <div>
       <h2 className="text-4xl font-semibold my-2 mx-4 mb-4">Blogs</h2>
-      <Notification message = {errorMessage} />
+      <Notification />
 
       {!user && loginForm()}
       {user && <div>

@@ -22,7 +22,11 @@
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+<<<<<<< HEAD
     "react-redux": "^9.1.0",
+=======
+    "react-redux": "^9.0.4",
+>>>>>>> 6eaa59d30e8109b6cf49dcb5eee1f8bd5e91f013
     "redux": "^5.0.1"
   },
   "devDependencies": {
