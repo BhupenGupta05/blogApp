@@ -12,8 +12,7 @@ import BlogForm from './components/BlogForm'
 
 const App = () => {
 
-  const dispatch = useDispatch()
-  const user = useSelector((state) => state.user)
+  const [user, setUser] = useState(null)
 
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
@@ -32,7 +31,7 @@ const App = () => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
-      dispatch(setUser(user))
+      setUser(user)
       blogService.setToken(user.token)
     }
   }, [])
@@ -43,7 +42,7 @@ const App = () => {
       const user = await loginService.login({ username, password })
       window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user))
       blogService.setToken(user.token)
-      dispatch(setUser(user))
+      setUser(user)
       setUsername('')
       setPassword('')
       // Update blogs after login
@@ -58,7 +57,7 @@ const App = () => {
 
   const handleLogout = () => {
     window.localStorage.removeItem('loggedBlogAppUser')
-    dispatch(setUser(null))
+    setUser(null)
     blogService.setToken(null)
   }
 
