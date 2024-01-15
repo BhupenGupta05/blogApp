@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { showNotification } from './reducers/notificationReducer'
 import { setUser, clearUser } from './reducers/userReducer'
+import { initializeBlogs,createBlog } from './reducers/blogReducer'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import Blog from './components/Blog'
@@ -11,10 +12,11 @@ import Togglable from './components/Togglable'
 import BlogForm from './components/BlogForm'
 
 const App = () => {
+  const dispatch = useDispatch()
+  const user = useSelector((state) => state.user)
+  const blogs = useSelector((state) => state.blogs)
 
-  const [user, setUser] = useState(null)
-
-  const [blogs, setBlogs] = useState([])
+  // const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
@@ -23,18 +25,19 @@ const App = () => {
   useEffect(() => {
     if(user) {
       // Fetch and update blogs after user login
-      updateBlogs()
+      dispatch(initializeBlogs())
     }
-  },[user, username, password])
+  },[user, username, password, dispatch])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser')
     if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON)
-      setUser(user)
-      blogService.setToken(user.token)
+      const localUser = JSON.parse(loggedUserJSON)
+      dispatch(setUser(localUser))
+      blogService.setToken(localUser.token)
+      dispatch(initializeBlogs())
     }
-  }, [])
+  }, [dispatch])
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -42,12 +45,12 @@ const App = () => {
       const user = await loginService.login({ username, password })
       window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user))
       blogService.setToken(user.token)
-      setUser(user)
+      dispatch(setUser(user))
       setUsername('')
       setPassword('')
       // Update blogs after login
       dispatch(showNotification(`${user.name} logged in`, 5))
-      updateBlogs()
+      dispatch(initializeBlogs())
     } catch (exception) {
       dispatch(showNotification(`Wrong credentials`, 5))
       setUsername('')
@@ -57,7 +60,7 @@ const App = () => {
 
   const handleLogout = () => {
     window.localStorage.removeItem('loggedBlogAppUser')
-    setUser(null)
+    dispatch(clearUser())
     blogService.setToken(null)
   }
 
@@ -65,13 +68,8 @@ const App = () => {
 
   const addBlog = (blogObj) => {
     blogFormRef.current.toggleVisibility()
-    blogService
-      .create(blogObj)
-      .then(returnedBlog => {
-        setBlogs(blogs.concat(returnedBlog))
-
-        dispatch(showNotification(`A new blog ${blogObj.title} by ${blogObj.author} added`, 5))
-      })
+    dispatch(createBlog(blogObj))
+    dispatch(showNotification(`A new blog ${blogObj.title} by ${blogObj.author} added`, 5))
   }
 
 
@@ -80,20 +78,20 @@ const App = () => {
 
   // Suppose there are two blogs with same no. of likes, and i update the likes of one of them,
   // then the blogs should be sorted in real time instead of the next re-render
-  const updateBlogs = async() => {
-    try
-    {
-      const fetchedBlogs = await blogService.getAll()
+  // const updateBlogs = async() => {
+  //   try
+  //   {
+  //     const fetchedBlogs = await blogService.getAll()
 
-      // Sort blogs by likes
-      const sortedBlogs = fetchedBlogs.slice().sort((a, b) => b.likes - a.likes)
-      console.log('Fetching blogs...', sortedBlogs)
-      setBlogs(sortedBlogs)
-    } catch (error) {
-      console.error('Error fetching blogs:', error.message)
-      dispatch(showNotification(`Failed to fetch blogs. Please try again later.`, 5))
-    }
-  }
+  //     // Sort blogs by likes
+  //     const sortedBlogs = fetchedBlogs.slice().sort((a, b) => b.likes - a.likes)
+  //     console.log('Fetching blogs...', sortedBlogs)
+  //     setBlogs(sortedBlogs)
+  //   } catch (error) {
+  //     console.error('Error fetching blogs:', error.message)
+  //     dispatch(showNotification(`Failed to fetch blogs. Please try again later.`, 5))
+  //   }
+  // }
 
   const loginForm = () => (
     <Togglable buttonLabel='Login'>
@@ -128,7 +126,7 @@ const App = () => {
 
       <ul className="mx-2">
         {user && blogs.map((blog, index) => (
-          <Blog key={blog._id || index} user={user} blog={blog} updateBlogs={updateBlogs} />
+          <Blog key={blog._id || index} user={user} blog={blog} />
         ))}
       </ul>
 

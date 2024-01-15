@@ -1,13 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit"
 import blogService from '../services/blogs'
+import { selectUser } from "./userReducer"
+import store from '../store'
 
 const blogSlice = createSlice({
     name: 'blogs',
     initialState: [],
     reducers: {
         updateLikes(state, action) {
-            const updatedBlog = action.payload
-            return state.map(blog => blog.id !== updatedBlog.id ? blog : updatedBlog)
+          const { id, likes } = action.payload
+          const blogToUpdate = state.find(blog => blog.id === id)
+          if (blogToUpdate) {
+            blogToUpdate.likes = likes;
+          }
         },
         appendBlog(state, action) {
             state.push(action.payload)
@@ -30,10 +35,15 @@ export const initializeBlogs = () => {
     dispatch(setBlogs(blogs))  
   }}
 
+
+  //here i have to add user object
 export const createBlog = (blog) => {
   return async dispatch => {
     const newBlog = await blogService.create(blog)
-    dispatch(appendBlog(newBlog))
+    const user = selectUser(store.getState())
+    console.log(user)
+    const blogWithUser = {...newBlog, user}
+    dispatch(appendBlog(blogWithUser))
   }
 }
 

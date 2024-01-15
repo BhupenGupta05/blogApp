@@ -1,9 +1,13 @@
-import blogService from '../services/blogs'
 import { useState, useEffect, useReducer } from 'react'
+import { useDispatch } from 'react-redux'
+import { deleteBlog, initializeBlogs, updateBlog } from '../reducers/blogReducer'
+import { showNotification } from '../reducers/notificationReducer'
 
-const Blog = ({ user, blog, updateBlogs }) => {
+const Blog = ({ user, blog }) => {
   const [showDetails, setShowDetails] = useState(false)
-  const [likes, setLikes] = useState(blog.likes || 0)
+  // const [likes, setLikes] = useState(blog.likes || 0)
+
+  const dispatch = useDispatch()
 
   const toggleDetails = () => {
     setShowDetails(!showDetails)
@@ -11,13 +15,13 @@ const Blog = ({ user, blog, updateBlogs }) => {
 
   const handleLikes = async () => {
     try {
-      const updatedBlog = { ...blog, likes: likes + 1 }
-      const response = await blogService.update(blog.id, updatedBlog)
+      const updatedBlog = { ...blog, likes: blog.likes + 1 }
 
-      console.log('Response from server:', response)
-      setLikes(response.likes)
+      console.log('Response from server:', updatedBlog)
+      // setLikes(updatedBlog.likes)
       // Update the parent component's state to trigger re-render with sorted blogs
-      updateBlogs()
+      dispatch(updateBlog(updatedBlog.id, updatedBlog))
+
     } catch (error) {
       console.log('Error updating likes:', error)
     }
@@ -26,19 +30,20 @@ const Blog = ({ user, blog, updateBlogs }) => {
   const handleDelete = async () => {
     if(window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
       try {
-        await blogService.remove(blog.id)
+        dispatch(deleteBlog(blog.id))
+        dispatch(showNotification(`Deleted blog: ${blog.title}`, 3))
         // Fetch updated list of blogs after deletion
-        updateBlogs()
+        
       } catch(error) {
         console.log('Error deleting blog:', error)
       }
     }
   }
 
-  useEffect(() => {
-    // Update likes state when the blog prop changes
-    setLikes(blog.likes || 0)
-  }, [blog])
+  // useEffect(() => {
+  //   // Update likes state when the blog prop changes
+  //   setLikes(blog.likes || 0)
+  // }, [blog])
 
   return (
     <div className="p-2 pl-1 border border-solid m-2">
@@ -56,7 +61,7 @@ const Blog = ({ user, blog, updateBlogs }) => {
       {showDetails && (
         <div>
           <p>{blog.url}</p>
-          <p>{likes}<button id='like-button' className="px-2 py-1 bg-slate-200 rounded-md" onClick={handleLikes}>like</button> </p>
+          <p>{blog.likes}<button id='like-button' className="px-2 py-1 bg-slate-200 rounded-md" onClick={handleLikes}>like</button> </p>
           {blog.user && <p>Added by: {blog.user.name}</p>}
 
           {/* delete button is shown only to the user who has added the blog post */}
