@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux"
+import { useSelector } from 'react-redux'
 
 const Notification = () => {
 
@@ -7,8 +7,8 @@ const Notification = () => {
     return null
   }
 
-  const isSuccess = notification.message.toLowerCase().includes('added') 
-  || notification.message.toLowerCase().includes('updated') 
+  const isSuccess = notification.message.toLowerCase().includes('added')
+  || notification.message.toLowerCase().includes('updated')
   || notification.message.toLowerCase().includes('logged in')
 
   const notificationStyle = {

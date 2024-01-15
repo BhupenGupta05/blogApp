@@ -49,7 +49,7 @@ const App = () => {
       dispatch(showNotification(`${user.name} logged in`, 5))
       updateBlogs()
     } catch (exception) {
-      dispatch(showNotification(`Wrong credentials`, 5))
+      dispatch(showNotification('Wrong credentials', 5))
       setUsername('')
       setPassword('')
     }
@@ -91,7 +91,7 @@ const App = () => {
       setBlogs(sortedBlogs)
     } catch (error) {
       console.error('Error fetching blogs:', error.message)
-      dispatch(showNotification(`Failed to fetch blogs. Please try again later.`, 5))
+      dispatch(showNotification('Failed to fetch blogs. Please try again later.', 5))
     }
   }
 
