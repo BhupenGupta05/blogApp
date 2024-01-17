@@ -10,6 +10,10 @@ const BlogForm = ({ createBlog }) => {
   const addBlog = (e) => {
     e.preventDefault()
 
+    if(!newBlog.title || !newBlog.author || !newBlog.url) {
+      return;
+    }
+
     createBlog({
       title: newBlog.title,
       author: newBlog.author,

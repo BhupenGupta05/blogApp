@@ -26,7 +26,13 @@ const Menu = () => {
             
         </div>
         ) : (
-        <Link style={padding} to='/login'></Link>
+          <div>
+            <Link style={padding} to='/'></Link>
+            <Link style={padding} to='/blogs'>blogs</Link>
+            <Link style={padding} to='/users'>users</Link>
+            <Link style={padding} to='/login'>login</Link>
+          </div>
+        
         )}
 
     </>
