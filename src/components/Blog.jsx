@@ -1,17 +1,14 @@
-import { useState, useEffect, useReducer } from 'react'
-import { useDispatch } from 'react-redux'
-import { deleteBlog, initializeBlogs, updateBlog } from '../reducers/blogReducer'
+import { useDispatch, useSelector } from 'react-redux'
+import { deleteBlog, updateBlog } from '../reducers/blogReducer'
 import { showNotification } from '../reducers/notificationReducer'
+import { useParams } from 'react-router'
 
-const Blog = ({ user, blog }) => {
-  const [showDetails, setShowDetails] = useState(false)
-  // const [likes, setLikes] = useState(blog.likes || 0)
-
+const Blog = () => {
+  const id = useParams().id
+  const user = useSelector((state) => state.user)
+  const blog = useSelector((state) => state.blogs.find((blog) => blog.id === id))
+  console.log(blog);
   const dispatch = useDispatch()
-
-  const toggleDetails = () => {
-    setShowDetails(!showDetails)
-  }
 
   const handleLikes = async () => {
     try {
@@ -47,19 +44,7 @@ const Blog = ({ user, blog }) => {
 
   return (
     <div className="p-2 pl-1 border border-solid m-2">
-      <div>
-        {blog.title} {blog.author} {' '}
-        <button id='toggle-button' onClick={toggleDetails} className="px-4 py-1 bg-slate-200 rounded-md" >{showDetails ? 'hide' : 'view'}</button>
-      </div>
-
-
-      {/* I might face this problem again */}
-
-      {/* Here when I was trying to update the likes when the user clicks on the like button,
-      I was using blog.likes but I already defined a state for that, that's why,
-      it was not getting updated as soon as i click, instead of that it was getting updated after i have refreshed the page */}
-      {showDetails && (
-        <div>
+          <h2>{blog.title}</h2>
           <p>{blog.url}</p>
           <p>{blog.likes}<button id='like-button' className="px-2 py-1 bg-slate-200 rounded-md" onClick={handleLikes}>like</button> </p>
           {blog.user && <p>Added by: {blog.user.name}</p>}
@@ -68,8 +53,6 @@ const Blog = ({ user, blog }) => {
           {user && blog.user && user.username === blog.user.username && (
             <button className='px-1 py-1 mt-2 bg-blue-500 rounded-md' onClick={handleDelete}>remove</button>
           )}
-        </div>
-      )}
     </div>
 
   )

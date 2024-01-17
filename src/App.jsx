@@ -5,13 +5,20 @@ import { setUser, clearUser } from './reducers/userReducer'
 import { initializeBlogs,createBlog } from './reducers/blogReducer'
 import blogService from './services/blogs'
 import loginService from './services/login'
-import Blog from './components/Blog'
+import Menu from './components/Menu'
 import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
 import Togglable from './components/Togglable'
 import BlogForm from './components/BlogForm'
+import Blogs from './components/Blogs'
+import Blog from './components/Blog'
+import { Route, Routes, useNavigate, Navigate } from 'react-router'
+import Home from './components/Home'
+import Users from './components/Users'
+import User from './components/User'
 
 const App = () => {
+  const naviagte = useNavigate()
   const dispatch = useDispatch()
   const user = useSelector((state) => state.user)
   const blogs = useSelector((state) => state.blogs)
@@ -36,6 +43,7 @@ const App = () => {
       dispatch(setUser(localUser))
       blogService.setToken(localUser.token)
       dispatch(initializeBlogs())
+      naviagte('/')
     }
   }, [dispatch])
 
@@ -51,6 +59,8 @@ const App = () => {
       // Update blogs after login
       dispatch(showNotification(`${user.name} logged in`, 5))
       dispatch(initializeBlogs())
+      naviagte('/')
+      
     } catch (exception) {
       dispatch(showNotification(`Wrong credentials`, 5))
       setUsername('')
@@ -58,40 +68,11 @@ const App = () => {
     }
   }
 
-  const handleLogout = () => {
-    window.localStorage.removeItem('loggedBlogAppUser')
-    dispatch(clearUser())
-    blogService.setToken(null)
-  }
-
-
-
   const addBlog = (blogObj) => {
     blogFormRef.current.toggleVisibility()
     dispatch(createBlog(blogObj))
     dispatch(showNotification(`A new blog ${blogObj.title} by ${blogObj.author} added`, 5))
   }
-
-
-
-
-
-  // Suppose there are two blogs with same no. of likes, and i update the likes of one of them,
-  // then the blogs should be sorted in real time instead of the next re-render
-  // const updateBlogs = async() => {
-  //   try
-  //   {
-  //     const fetchedBlogs = await blogService.getAll()
-
-  //     // Sort blogs by likes
-  //     const sortedBlogs = fetchedBlogs.slice().sort((a, b) => b.likes - a.likes)
-  //     console.log('Fetching blogs...', sortedBlogs)
-  //     setBlogs(sortedBlogs)
-  //   } catch (error) {
-  //     console.error('Error fetching blogs:', error.message)
-  //     dispatch(showNotification(`Failed to fetch blogs. Please try again later.`, 5))
-  //   }
-  // }
 
   const loginForm = () => (
     <Togglable buttonLabel='Login'>
@@ -111,24 +92,25 @@ const App = () => {
 
   return (
     <div>
-      <h2 className="text-4xl font-semibold my-2 mx-4 mb-4">Blogs</h2>
       <Notification />
+      <Menu />
 
       {!user && loginForm()}
       {user && <div>
-        <p>{user.name} logged in <button type="submit" className="px-4 py-1 bg-slate-200 rounded-md" onClick={handleLogout}>logout</button> </p>
         {blogForm()}
       </div>
       }
 
+      <Routes>
+        <Route path='/' element={<Home />} />
+        <Route path='/blogs' element={user ? <Blogs /> : <Navigate replace to='/login' />} />
+        <Route path='/blogs/:id' element={<Blog />} />
+        <Route path='/users' element={user ? <Users />: <Navigate replace to='/login' />} />
+        <Route path='/users/:id' element={<User />} />
+      </Routes>
+
       {/* If we dont define a buttonlabel, it will render a button with no text
     <Togglable>buttonLabel forgotten... </Togglable>  */}
-
-      <ul className="mx-2">
-        {user && blogs.map((blog, index) => (
-          <Blog key={blog._id || index} user={user} blog={blog} />
-        ))}
-      </ul>
 
     </div>
   )
