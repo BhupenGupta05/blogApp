@@ -5,7 +5,6 @@ import { addComment } from "../reducers/commentReducer"
 const CommentForm = () => {
     const dispatch = useDispatch()
     const id = useParams().id
-    // const [comment, setComment] = useState('')
 
     const handleSubmit = async (e) => {
         e.preventDefault()

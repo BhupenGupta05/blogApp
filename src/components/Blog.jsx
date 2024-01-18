@@ -2,9 +2,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { deleteBlog, updateBlog } from '../reducers/blogReducer'
 import { showNotification } from '../reducers/notificationReducer'
 import { useParams } from 'react-router'
-import { useState, useEffect } from 'react'
-import blogService from '../services/blogs'
-import { useNavigate } from 'react-router-dom'
 import CommentForm from './CommentForm'
 import CommentList from './CommentList'
 
@@ -18,10 +15,7 @@ const Blog = () => {
   const handleLikes = async () => {
     try {
       const updatedBlog = { ...blog, likes: blog.likes + 1 }
-
       console.log('Response from server:', updatedBlog)
-      // setLikes(updatedBlog.likes)
-      // Update the parent component's state to trigger re-render with sorted blogs
       dispatch(updateBlog(updatedBlog.id, updatedBlog))
 
     } catch (error) {
@@ -34,12 +28,14 @@ const Blog = () => {
       try {
         dispatch(deleteBlog(blog.id))
         dispatch(showNotification(`Deleted blog: ${blog.title}`, 3))
-        // Fetch updated list of blogs after deletion
-        
       } catch(error) {
         console.log('Error deleting blog:', error)
       }
     }
+  }
+
+  if (!blog) {
+    return <div>Loading...</div>;
   }
 
 

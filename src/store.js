@@ -5,12 +5,12 @@ import blogReducer from './reducers/blogReducer.js'
 import commentReducer from './reducers/commentReducer.js'
 
 const store = configureStore({
-    reducer: {
-      notification: notificationReducer,
-      user: userReducer,
-      blogs: blogReducer,
-      comments: commentReducer
-    }
+  reducer: {
+    notification: notificationReducer,
+    user: userReducer,
+    blogs: blogReducer,
+    comments: commentReducer
+  }
 })
 
 export default store

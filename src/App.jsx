@@ -4,35 +4,27 @@ import { showNotification } from './reducers/notificationReducer'
 import { setUser } from './reducers/userReducer'
 import { initializeBlogs,createBlog } from './reducers/blogReducer'
 import blogService from './services/blogs'
-import loginService from './services/login'
 import Menu from './components/Menu'
 import Notification from './components/Notification'
-import LoginForm from './components/LoginForm'
 import Togglable from './components/Togglable'
 import BlogForm from './components/BlogForm'
 import Blogs from './components/Blogs'
 import Blog from './components/Blog'
-import { Route, Routes, useNavigate, Navigate } from 'react-router'
+import { Route, Routes, Navigate } from 'react-router'
 import Home from './components/Home'
 import Users from './components/Users'
 import User from './components/User'
 import Login from './components/Login'
 
 const App = () => {
-  const naviagte = useNavigate()
   const dispatch = useDispatch()
   const user = useSelector((state) => state.user)
-
-
-  // const [blogs, setBlogs] = useState([])
-  // const [username, setUsername] = useState('')
-  // const [password, setPassword] = useState('')
+  const [loading, setLoading] = useState(true)
 
   const blogFormRef = useRef()
 
   useEffect(() => {
     if(user) {
-      // Fetch and update blogs after user login
       dispatch(initializeBlogs())
     }
   },[user, dispatch])
@@ -44,46 +36,19 @@ const App = () => {
       dispatch(setUser(localUser))
       blogService.setToken(localUser.token)
       dispatch(initializeBlogs())
-      naviagte('/')
     }
+    setLoading(false)
   }, [dispatch])
 
-  // const handleLogin = async (event) => {
-  //   event.preventDefault()
-  //   try {
-  //     const user = await loginService.login({ username, password })
-  //     window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user))
-  //     blogService.setToken(user.token)
-  //     dispatch(setUser(user))
-  //     setUsername('')
-  //     setPassword('')
-  //     // Update blogs after login
-  //     dispatch(showNotification(`${user.name} logged in`, 5))
-  //     dispatch(initializeBlogs())
-  //     naviagte('/')
-      
-  //   } catch (exception) {
-  //     dispatch(showNotification(`Wrong credentials`, 5))
-  //     setUsername('')
-  //     setPassword('')
-  //   }
-  // }
+  if(loading) {
+    return <div>Loading...</div>
+  }
 
   const addBlog = (blogObj) => {
     blogFormRef.current.toggleVisibility()
     dispatch(createBlog(blogObj))
     dispatch(showNotification(`A new blog ${blogObj.title} by ${blogObj.author} added`, 5))
   }
-
-  // const loginForm = () => (
-  //   <Togglable buttonLabel='Login'>
-  //     <LoginForm handleSubmit={handleLogin}
-  //       username={username}
-  //       password={password}
-  //       setUsername={setUsername}
-  //       setPassword={setPassword}/>
-  //   </Togglable>
-  // )
 
   const blogForm = () => (
     <Togglable buttonLabel='New Blog' ref={blogFormRef} >

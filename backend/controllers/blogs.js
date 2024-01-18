@@ -11,14 +11,14 @@ blogsRouter.get('/', async (request, response) => {
 
 blogsRouter.get('/:id', (request, response, next) => {
   Blog.findById(request.params.id)
-  .populate('comments', {text: 1})
-  .then(blog => {
-    if (blog) {
-      response.json(blog)
-    } else {
-      response.status(404).end()
-    }
-  })
+    .populate('comments', { text: 1 })
+    .then(blog => {
+      if (blog) {
+        response.json(blog)
+      } else {
+        response.status(404).end()
+      }
+    })
     .catch(error => next(error))
 })
 
@@ -47,22 +47,22 @@ blogsRouter.post('/', middleware.userExtractor, async (request, response) => {
 
 blogsRouter.post('/:id', middleware.userExtractor, async (request, response) => {
   try {
-    const {id} = request.params
-  const {text} = request.body
+    const { id } = request.params
+    const { text } = request.body
 
-  if(!text) {
-    return;
-  }
+    if(!text) {
+      return
+    }
 
-  const blog = await Blog.findById(id)
+    const blog = await Blog.findById(id)
 
-  blog.comments.push({text})
+    blog.comments.push({ text })
 
-  const updatedBlog = await blog.save()
-  response.status(201).json(updatedBlog.comments)
+    const updatedBlog = await blog.save()
+    response.status(201).json(updatedBlog.comments)
 
   } catch(error) {
-    response.status(400).json({error : 'Bad request'})
+    response.status(400).json({ error : 'Bad request' })
   }
 })
 

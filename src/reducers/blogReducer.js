@@ -1,48 +1,48 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice } from '@reduxjs/toolkit'
 import blogService from '../services/blogs'
-import { selectUser } from "./userReducer"
+import { selectUser } from './userReducer'
 import store from '../store'
 
 const blogSlice = createSlice({
-    name: 'blogs',
-    initialState: [],
-    reducers: {
-        updateLikes(state, action) {
-          const { id, likes } = action.payload
-          const blogToUpdate = state.find(blog => blog.id === id)
-          if (blogToUpdate) {
-            blogToUpdate.likes = likes;
-          }
-        },
-        appendBlog(state, action) {
-            state.push(action.payload)
-        },
-        removeBlog(state, action) {
-          const id = action.payload
-          return state.filter(blog => blog.id !== id)
-        },
-        setBlogs(state, action) {
-            return action.payload
-        }
+  name: 'blogs',
+  initialState: [],
+  reducers: {
+    updateLikes(state, action) {
+      const { id, likes } = action.payload
+      const blogToUpdate = state.find(blog => blog.id === id)
+      if (blogToUpdate) {
+        blogToUpdate.likes = likes
+      }
+    },
+    appendBlog(state, action) {
+      state.push(action.payload)
+    },
+    removeBlog(state, action) {
+      const id = action.payload
+      return state.filter(blog => blog.id !== id)
+    },
+    setBlogs(state, action) {
+      return action.payload
     }
+  }
 })
 
 export const { updateLikes, appendBlog, setBlogs, removeBlog } = blogSlice.actions
 
-export const initializeBlogs = () => {  
-  return async dispatch => {    
-    const blogs = await blogService.getAll()    
-    dispatch(setBlogs(blogs))  
+export const initializeBlogs = () => {
+  return async dispatch => {
+    const blogs = await blogService.getAll()
+    dispatch(setBlogs(blogs))
   }}
 
 
-  //here i have to add user object
+//here i have to add user object
 export const createBlog = (blog) => {
   return async dispatch => {
     const newBlog = await blogService.create(blog)
     const user = selectUser(store.getState())
     console.log(user)
-    const blogWithUser = {...newBlog, user}
+    const blogWithUser = { ...newBlog, user }
     dispatch(appendBlog(blogWithUser))
   }
 }

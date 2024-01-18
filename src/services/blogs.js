@@ -41,7 +41,7 @@ const create = async (newObject) => {
   return response.data
 }
 
-const createComment = async (id, newObject) =>{
+const createComment = async (id, newObject) => {
   const config = {
     headers: { Authorization: token },
   }

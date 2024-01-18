@@ -10,6 +10,11 @@ const Blogs = () => {
     marginBottom: 5
   }
     const blogs = useSelector((state) => state.blogs)
+
+    if(!blogs) {
+      return null
+    }
+
   return (
     <>
     <h2 className="text-4xl font-semibold my-2 mx-4 mb-4">Blogs</h2>
