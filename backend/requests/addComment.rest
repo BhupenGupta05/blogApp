@@ -1,0 +1,7 @@
+POST http://localhost:3001/api/blogs/6572ba112971a8ff54adcd68
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjY1NzM0OTYyYzIyMzMzYzI0OGY5ZTI3NyIsImlhdCI6MTcwNTQ5OTAyMn0.j-NXOGwlEgP45Ky3rGi2qigLhU-rAMwOcn37pK7baXg
+Content-Type: application/json
+
+{
+    "text": "This is the first comment !"
+}

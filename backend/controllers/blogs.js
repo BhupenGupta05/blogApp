@@ -10,7 +10,9 @@ blogsRouter.get('/', async (request, response) => {
 })
 
 blogsRouter.get('/:id', (request, response, next) => {
-  Blog.findById(request.params.id).then(blog => {
+  Blog.findById(request.params.id)
+  .populate('comments', {text: 1})
+  .then(blog => {
     if (blog) {
       response.json(blog)
     } else {
@@ -41,6 +43,27 @@ blogsRouter.post('/', middleware.userExtractor, async (request, response) => {
   await user.save()
 
   response.status(201).json(savedBlog)
+})
+
+blogsRouter.post('/:id', middleware.userExtractor, async (request, response) => {
+  try {
+    const {id} = request.params
+  const {text} = request.body
+
+  if(!text) {
+    return;
+  }
+
+  const blog = await Blog.findById(id)
+
+  blog.comments.push({text})
+
+  const updatedBlog = await blog.save()
+  response.status(201).json(updatedBlog.comments)
+
+  } catch(error) {
+    response.status(400).json({error : 'Bad request'})
+  }
 })
 
 blogsRouter.put('/:id', async(request, response) => {
