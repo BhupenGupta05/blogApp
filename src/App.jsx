@@ -10,7 +10,7 @@ import Togglable from './components/Togglable'
 import BlogForm from './components/BlogForm'
 import Blogs from './components/Blogs'
 import Blog from './components/Blog'
-import { Route, Routes, Navigate } from 'react-router'
+import { Route, Routes, Navigate, useLocation } from 'react-router'
 import Home from './components/Home'
 import Users from './components/Users'
 import User from './components/User'
@@ -20,6 +20,7 @@ const App = () => {
   const dispatch = useDispatch()
   const user = useSelector((state) => state.user)
   const [loading, setLoading] = useState(true)
+  const location = useLocation()
 
   const blogFormRef = useRef()
 
@@ -50,6 +51,8 @@ const App = () => {
     dispatch(showNotification(`A new blog ${blogObj.title} by ${blogObj.author} added`, 5))
   }
 
+  const shouldRenderBlogForm = location.pathname === '/blogs'
+
   const blogForm = () => (
     <Togglable buttonLabel='New Blog' ref={blogFormRef} >
       <BlogForm createBlog={addBlog}/>
@@ -61,8 +64,7 @@ const App = () => {
       <Notification />
       <Menu />
 
-      {/* {!user && loginForm()} */}
-      {user && <div>
+      {shouldRenderBlogForm && user && <div>
         {blogForm()}
       </div>
       }
@@ -75,9 +77,6 @@ const App = () => {
         <Route path='/users/:id' element={<User />} />
         <Route path='/login' element={<Login />} />
       </Routes>
-
-      {/* If we dont define a buttonlabel, it will render a button with no text
-    <Togglable>buttonLabel forgotten... </Togglable>  */}
 
     </div>
   )
