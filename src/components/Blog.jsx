@@ -40,10 +40,10 @@ const Blog = () => {
 
 
   return (
-    <div className="p-2 pl-1 border border-solid m-2">
+    <div>
           <h2>{blog.title}</h2>
           <p>{blog.url}</p>
-          <p>{blog.likes}<button id='like-button' className="px-2 py-1 bg-slate-200 rounded-md" onClick={handleLikes}>like</button> </p>
+          <p>{blog.likes}<button id='like-button' onClick={handleLikes}>like</button> </p>
           {blog.user && <p>Added by: {blog.user.name}</p>}
 
           <CommentForm />
@@ -51,7 +51,7 @@ const Blog = () => {
 
           {/* delete button is shown only to the user who has added the blog post */}
           {user && blog.user && user.username === blog.user.username && (
-            <button className='px-1 py-1 mt-2 bg-blue-500 rounded-md' onClick={handleDelete}>remove</button>
+            <button onClick={handleDelete}>remove</button>
           )}
     </div>
 

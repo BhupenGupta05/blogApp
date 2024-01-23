@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import { useNavigate } from 'react-router'
+import { Form, Button } from 'react-bootstrap'
 
 const LoginForm = ({
   handleSubmit,
@@ -14,38 +15,40 @@ const LoginForm = ({
   }
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <div>
-            username
-          <input
+      <Form onSubmit={handleSubmit}>
+        <Form.Group>
+          <Form.Label>username: </Form.Label>
+            
+          <Form.Control
             id='username'
             type="text"
             value={username}
             name="Username"
             onChange={(e) => setUsername(e.target.value)}
-            className=" bg-slate-300 px-4 py-1 my-1 outline-none rounded-md ml-2"
           />
 
-        </div>
+        </Form.Group>
 
-        <div>
-            password
-          <input
+        <Form.Group>
+          <Form.Label>password: </Form.Label>
+            
+          <Form.Control
             id='password'
             type="text"
             value={password}
             name="Password"
             onChange={(e) => setPassword(e.target.value)}
-            className=" bg-slate-300 px-4 py-1 my-1 outline-none rounded-md ml-2"
           />
 
-        </div>
-        <div>
-        <button id='login-button' type="submit" className="px-4 py-1 bg-slate-200 rounded-md mb-2">Login</button>
-        <button id='cancel-button' type="button" className="px-4 py-1 bg-slate-200 rounded-md mb-2" onClick={handleCancel}>Cancel</button>
-        </div>
+        </Form.Group>
+        <Button id='login-button' type="submit" variant='primary' className=' bg-blue-600' >
+          Login
+          </Button>
+        <Button id='cancel-button' type="button" variant='secondary' onClick={handleCancel} className=' bg-slate-600 m-3'>
+          Cancel
+          </Button>
         
-      </form>
+      </Form>
     </div>
   )
 }

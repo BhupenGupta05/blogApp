@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Form, Button } from 'react-bootstrap'
 
 const BlogForm = ({ createBlog }) => {
   const [newBlog, setNewBlog] = useState({
@@ -29,26 +30,26 @@ const BlogForm = ({ createBlog }) => {
 
   return (
     <div>
-      <h2 className="text-4xl font-semibold my-2 mx-4 mb-4">Create a new blog</h2>
+      <h2>Create a new blog</h2>
 
-      <form onSubmit={addBlog}>
-        <div>
-                Title :
-          <input id='title' name="title" value={newBlog.title} onChange={(e) => setNewBlog({ ...newBlog, title: e.target.value })} className=" bg-slate-300 px-4 py-1 my-1 outline-none rounded-md ml-2"/>
-        </div>
+      <Form onSubmit={addBlog}>
+        <Form.Group>
+          <Form.Label>Title :</Form.Label>     
+          <Form.Control id='title' name="title" value={newBlog.title} onChange={(e) => setNewBlog({ ...newBlog, title: e.target.value })} />
+        </Form.Group>
 
-        <div>
-                Author :
-          <input id='author' name="author" value={newBlog.author} onChange={(e) => setNewBlog({ ...newBlog, author: e.target.value })} className=" bg-slate-300 px-4 py-1 my-1 outline-none rounded-md ml-2"/>
-        </div>
+        <Form.Group>
+          <Form.Label>Author :</Form.Label>
+          <Form.Control id='author' name="author" value={newBlog.author} onChange={(e) => setNewBlog({ ...newBlog, author: e.target.value })} />
+        </Form.Group>
 
-        <div>
-                URL :
-          <input id='url' name="url" value={newBlog.url} onChange={(e) => setNewBlog({ ...newBlog, url: e.target.value })} className=" bg-slate-300 px-4 py-1 my-1 outline-none rounded-md ml-2"/>
-        </div>
+        <Form.Group>
+          <Form.Label>URL :</Form.Label>
+          <Form.Control id='url' name="url" value={newBlog.url} onChange={(e) => setNewBlog({ ...newBlog, url: e.target.value })} />
+        </Form.Group>
 
-        <button type="submit" className="px-4 py-1 bg-slate-200 rounded-md mb-2" >Save</button>
-      </form>
+        <Button variant='primary' type="submit" className=' bg-blue-600 m-2' >Save</Button>
+      </Form>
     </div>
   )
 }

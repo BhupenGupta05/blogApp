@@ -17,7 +17,7 @@ const Users = () => {
       {uniqueUsers.map((user) => (
         <div className="flex" key={user.id}>
           <Link to={`/users/${user.id}`}>{user.name}</Link>
-        <p> - {user.blogCount} {user.blogCount === 1 ? 'blog' : 'blogs'}</p>
+        <div> - {user.blogCount} {user.blogCount === 1 ? 'blog' : 'blogs'}</div>
         </div>
         
       ))}

@@ -22,7 +22,7 @@ const Menu = () => {
             <Link style={padding} to='/'></Link>
             <Link style={padding} to='/blogs'>blogs</Link>
             <Link style={padding} to='/users'>users</Link>
-            <p>{user.name} logged in <button type="submit" className="px-4 py-1 bg-slate-200 rounded-md" onClick={handleLogout}>logout</button> </p>
+            <p>{user.name} <button type="submit" onClick={handleLogout}>logout</button> </p>
             
         </div>
         ) : (

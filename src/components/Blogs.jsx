@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux"
 import { Link } from "react-router-dom"
+import { Table } from 'react-bootstrap'
 
 const Blogs = () => {
   const blogStyle = {
@@ -17,16 +18,24 @@ const Blogs = () => {
 
   return (
     <>
-    <h2 className="text-4xl font-semibold my-2 mx-4 mb-4">Blogs</h2>
-    <div className="mx-2">
-        {blogs.map((blog, index) => (
-          <Link to={`/blogs/${blog.id}`} key={blog._id || index} >
-            <li style={blogStyle}>
-              {blog.title} {' by '} {blog.author}
-              </li>
+    <h2>Blogs</h2>
+    <Table striped>
+      <tbody>
+      {blogs.map((blog, index) => (
+        <tr key={blog._id || index}>
+          <td>
+            <Link to={`/blogs/${blog.id}`}>
+              {blog.title}  
             </Link>
+          </td>
+          <td>
+            {blog.author}
+          </td>
+        </tr>
         ))}
-    </div>
+      </tbody>
+        
+    </Table>
     </>
     
   )
