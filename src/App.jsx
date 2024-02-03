@@ -64,9 +64,9 @@ const App = () => {
       <Notification />
       <Menu />
 
-      {shouldRenderBlogForm 
-      && user 
-      && 
+      {shouldRenderBlogForm
+      && user
+      &&
       <div className='m-4'>
         {blogForm()}
       </div>

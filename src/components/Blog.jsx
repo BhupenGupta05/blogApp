@@ -57,9 +57,9 @@ const Blog = () => {
       {blog.user && <p>Added by : {blog.user.name}</p>}
 
       {/* delete button is shown only to the user who has added the blog post */}
-      {user 
-      && blog.user 
-      && user.username === blog.user.username 
+      {user
+      && blog.user
+      && user.username === blog.user.username
       && (
         <button className='px-2 py-1 mt-2 bg-slate-400 rounded-md w-fit' onClick={handleDelete}>Remove</button>
       )}
