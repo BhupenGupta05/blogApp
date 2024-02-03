@@ -11,7 +11,7 @@ const BlogForm = ({ createBlog }) => {
     e.preventDefault()
 
     if(!newBlog.title || !newBlog.author || !newBlog.url) {
-      return;
+      return
     }
 
     createBlog({

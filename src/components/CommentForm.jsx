@@ -1,24 +1,24 @@
-import { useParams } from "react-router"
-import { useDispatch } from "react-redux"
-import { addComment } from "../reducers/commentReducer"
+import { useParams } from 'react-router'
+import { useDispatch } from 'react-redux'
+import { addComment } from '../reducers/commentReducer'
 
 const CommentForm = () => {
-    const dispatch = useDispatch()
-    const id = useParams().id
+  const dispatch = useDispatch()
+  const id = useParams().id
 
-    const handleSubmit = async (e) => {
-        e.preventDefault()
-        const comment = e.target.comment.value
-        e.target.comment.value = ''
-        dispatch(addComment(id, comment))
-    }
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    const comment = e.target.comment.value
+    e.target.comment.value = ''
+    dispatch(addComment(id, comment))
+  }
 
   return (
     <form onSubmit={handleSubmit}>
       <label>
         Comment:
         <textarea
-        name="comment"
+          name="comment"
         />
       </label>
       <button type="submit">Add Comment</button>

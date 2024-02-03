@@ -38,7 +38,7 @@ const Blog = () => {
   useEffect(() => {
     const fetchBlogById = async (id) => {
       const blog = await blogService.getBlogById(id)
-      console.log(blog);
+      console.log(blog)
       setBlog(blog)
     }
 
@@ -46,23 +46,23 @@ const Blog = () => {
   },[id])
 
   if (!blog) {
-    return null;
+    return null
   }
 
   return (
     <div className="p-2 pl-1 border border-solid m-2">
-          <h2>{blog.title}</h2>
-          <p>{blog.url}</p>
-          <p>{blog.likes}<button id='like-button' className="px-2 py-1 bg-slate-200 rounded-md" onClick={handleLikes}>like</button> </p>
-          {blog.user && <p>Added by: {blog.user.name}</p>}
+      <h2>{blog.title}</h2>
+      <p>{blog.url}</p>
+      <p>{blog.likes}<button id='like-button' className="px-2 py-1 bg-slate-200 rounded-md" onClick={handleLikes}>like</button> </p>
+      {blog.user && <p>Added by: {blog.user.name}</p>}
 
-          <CommentForm />
-          <CommentList />
+      <CommentForm />
+      <CommentList />
 
-          {/* delete button is shown only to the user who has added the blog post */}
-          {user && blog.user && user.username === blog.user.username && (
-            <button className='px-1 py-1 mt-2 bg-blue-500 rounded-md' onClick={handleDelete}>remove</button>
-          )}
+      {/* delete button is shown only to the user who has added the blog post */}
+      {user && blog.user && user.username === blog.user.username && (
+        <button className='px-1 py-1 mt-2 bg-blue-500 rounded-md' onClick={handleDelete}>remove</button>
+      )}
     </div>
 
   )

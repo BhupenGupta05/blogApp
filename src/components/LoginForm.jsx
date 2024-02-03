@@ -41,10 +41,10 @@ const LoginForm = ({
 
         </div>
         <div>
-        <button id='login-button' type="submit" className="px-4 py-1 bg-slate-200 rounded-md mb-2">Login</button>
-        <button id='cancel-button' type="button" className="px-4 py-1 bg-slate-200 rounded-md mb-2" onClick={handleCancel}>Cancel</button>
+          <button id='login-button' type="submit" className="px-4 py-1 bg-slate-200 rounded-md mb-2">Login</button>
+          <button id='cancel-button' type="button" className="px-4 py-1 bg-slate-200 rounded-md mb-2" onClick={handleCancel}>Cancel</button>
         </div>
-        
+
       </form>
     </div>
   )

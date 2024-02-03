@@ -1,6 +1,6 @@
-import { Link } from "react-router-dom"
+import { Link } from 'react-router-dom'
 import userService from '../services/users'
-import { useEffect, useState } from "react"
+import { useEffect, useState } from 'react'
 
 const Users = () => {
   const [users, setUsers] = useState([])
@@ -8,7 +8,7 @@ const Users = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       const userData = await userService.getUsers()
-      console.log(userData);
+      console.log(userData)
       setUsers(userData)
     }
 
@@ -21,9 +21,9 @@ const Users = () => {
       {users.map((user) => (
         <div className="flex" key={user.id}>
           <Link to={`/users/${user.id}`}>{user.name}</Link>
-        <p> - {user.blogs.length} {user.blogs.length === 1 ? 'blog' : 'blogs'}</p>
+          <p> - {user.blogs.length} {user.blogs.length === 1 ? 'blog' : 'blogs'}</p>
         </div>
-        
+
       ))}
     </div>
   )
