@@ -11,7 +11,7 @@
     "server": "json-server -p3001 --watch db.json",
     "test": "jest",
     "cypress:open": "cypress open",
-    "fix": "npx eslint --fix ."
+    "fix": "npm run lint -- --fix"
   },
   "jest": {
     "testEnvironment": "jsdom"
