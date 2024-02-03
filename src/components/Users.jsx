@@ -17,14 +17,15 @@ const Users = () => {
 
   return (
     <div>
-      <h2>Users</h2>
+      <h2 className='text-2xl font-semibold ml-5 mt-4 mb-4'>Users</h2>
+      <ul className='flex flex-col gap-2 ml-8 mt-2'>
       {users.map((user) => (
-        <div className="flex" key={user.id}>
-          <Link to={`/users/${user.id}`}>{user.name}</Link>
+        <li className='flex' key={user.id}>
+          <Link to={`/users/${user.id}`} className=' font-semibold'>{user.name}</Link>
           <p> - {user.blogs.length} {user.blogs.length === 1 ? 'blog' : 'blogs'}</p>
-        </div>
-
-      ))}
+        </li>
+        ))}
+      </ul>
     </div>
   )
 }

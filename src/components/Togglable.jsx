@@ -25,7 +25,7 @@ const Togglable = forwardRef((props, refs) => {
 
       <div style={showWhenVisible} className='togglableContent'>
         {props.children}
-        <button onClick={toggleVisibility} className="px-4 py-1 bg-slate-200 rounded-md" >cancel</button>
+        <button onClick={toggleVisibility} className="px-4 py-1 bg-slate-400 rounded-md" >cancel</button>
       </div>
     </div>
   )

@@ -46,23 +46,27 @@ const Blog = () => {
   },[id])
 
   if (!blog) {
-    return null
+    return <div className='ml-4'>Loading...</div>
   }
 
   return (
-    <div className="p-2 pl-1 border border-solid m-2">
-      <h2>{blog.title}</h2>
-      <p>{blog.url}</p>
-      <p>{blog.likes}<button id='like-button' className="px-2 py-1 bg-slate-200 rounded-md" onClick={handleLikes}>like</button> </p>
-      {blog.user && <p>Added by: {blog.user.name}</p>}
+    <div className="flex flex-col p-2 pl-1 m-2">
+      <h2 className='text-3xl font-semibold tracking-wide mt-2'>{blog.title} {blog.author}</h2>
+      <a href={blog.url} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline mt-4">{blog.url}</a>
+      <p>{`${blog.likes} ${blog.likes > 1 ? 'likes' : 'like'}`} <button id='like-button' className="px-2 py-1 bg-pink-400 rounded-md mt-2" onClick={handleLikes}>like</button> </p>
+      {blog.user && <p>Added by : {blog.user.name}</p>}
+
+      {/* delete button is shown only to the user who has added the blog post */}
+      {user 
+      && blog.user 
+      && user.username === blog.user.username 
+      && (
+        <button className='px-2 py-1 mt-2 bg-slate-400 rounded-md w-fit' onClick={handleDelete}>Remove</button>
+      )}
 
       <CommentForm />
       <CommentList />
 
-      {/* delete button is shown only to the user who has added the blog post */}
-      {user && blog.user && user.username === blog.user.username && (
-        <button className='px-1 py-1 mt-2 bg-blue-500 rounded-md' onClick={handleDelete}>remove</button>
-      )}
     </div>
 
   )

@@ -14,14 +14,14 @@ const CommentForm = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Comment:
-        <textarea
-          name="comment"
+    <form onSubmit={handleSubmit} className=' mt-4'>
+        <input
+        className='bg-slate-300 px-4 py-1 my-1 mt-3 mb-4 outline-none rounded-md'
+        name="comment"
+        placeholder='Add a comment...'
         />
-      </label>
-      <button type="submit">Add Comment</button>
+      
+      <button type="submit" className=' bg-pink-400 rounded-md px-2 py-1 ml-2'>comment</button>
     </form>
   )
 }

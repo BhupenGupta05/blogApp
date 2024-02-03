@@ -54,17 +54,20 @@ const App = () => {
   const shouldRenderBlogForm = location.pathname === '/blogs'
 
   const blogForm = () => (
-    <Togglable buttonLabel='New Blog' ref={blogFormRef} >
+    <Togglable buttonLabel='New Blog' ref={blogFormRef}>
       <BlogForm createBlog={addBlog}/>
     </Togglable>
   )
 
   return (
-    <div>
+    <div className='flex flex-col m-4'>
       <Notification />
       <Menu />
 
-      {shouldRenderBlogForm && user && <div>
+      {shouldRenderBlogForm 
+      && user 
+      && 
+      <div className='m-4'>
         {blogForm()}
       </div>
       }

@@ -14,11 +14,12 @@ const CommentList = () => {
   }, [dispatch, id])
 
   return (
-    <div>
+    <ul className='flex flex-col list-disc'>
+      <h2 className='text-xl font-semibold mb-4'>Comments</h2>
       {blogComments && blogComments.map((comment) => (
-        <li key={comment.id}>{comment.text}</li>
+        <li key={comment.id} className='ml-6'>{comment.text}</li>
       ))}
-    </div>
+    </ul>
   )
 }
 

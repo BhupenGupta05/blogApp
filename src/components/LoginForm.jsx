@@ -13,10 +13,10 @@ const LoginForm = ({
     naviagte('/')
   }
   return (
-    <div>
+    <div className='flex mt-4 ml-4'>
       <form onSubmit={handleSubmit}>
         <div>
-            username
+            Username :
           <input
             id='username'
             type="text"
@@ -29,7 +29,7 @@ const LoginForm = ({
         </div>
 
         <div>
-            password
+            Password :
           <input
             id='password'
             type="text"
@@ -40,9 +40,9 @@ const LoginForm = ({
           />
 
         </div>
-        <div>
-          <button id='login-button' type="submit" className="px-4 py-1 bg-slate-200 rounded-md mb-2">Login</button>
-          <button id='cancel-button' type="button" className="px-4 py-1 bg-slate-200 rounded-md mb-2" onClick={handleCancel}>Cancel</button>
+        <div className='flex mt-1 gap-4'>
+          <button id='login-button' type="submit" className="px-4 py-1 bg-blue-600 rounded-md mb-2">Login</button>
+          <button id='cancel-button' type="button" className="px-4 py-1 bg-slate-400 rounded-md mb-2" onClick={handleCancel}>Cancel</button>
         </div>
 
       </form>

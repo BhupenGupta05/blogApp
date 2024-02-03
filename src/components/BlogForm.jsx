@@ -28,8 +28,8 @@ const BlogForm = ({ createBlog }) => {
   }
 
   return (
-    <div>
-      <h2 className="text-4xl font-semibold my-2 mx-4 mb-4">Create a new blog</h2>
+    <div className='flex flex-col gap-2'>
+      <h2 className="text-2xl font-semibold mb-2">Create a new blog</h2>
 
       <form onSubmit={addBlog}>
         <div>
@@ -47,7 +47,7 @@ const BlogForm = ({ createBlog }) => {
           <input id='url' name="url" value={newBlog.url} onChange={(e) => setNewBlog({ ...newBlog, url: e.target.value })} className=" bg-slate-300 px-4 py-1 my-1 outline-none rounded-md ml-2"/>
         </div>
 
-        <button type="submit" className="px-4 py-1 bg-slate-200 rounded-md mb-2" >Save</button>
+        <button type="submit" className="px-4 py-1 bg-blue-500 rounded-md mb-2" >Save</button>
       </form>
     </div>
   )
