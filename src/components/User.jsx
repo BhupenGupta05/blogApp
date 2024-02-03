@@ -1,15 +1,23 @@
 import { useParams } from "react-router-dom"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
+import { useEffect, useState } from "react"
+import userService from '../services/users'
 
 const User = () => {
     const id = useParams().id
-    const blogs = useSelector((state) => state.blogs)
-    const blogsWithUser = blogs.filter(blog => blog.user)
+    const [user, setUser] = useState(null)
 
-    const userWithBlogs = blogsWithUser.filter((blog) => blog.user.id === id)
-    console.log((userWithBlogs))
+    useEffect(() => {
+      const fetchUserById = async (id) => {
+        const singleUser = await userService.getUserById(id)
+        console.log(singleUser);
+        setUser(singleUser)
+      }
+  
+      fetchUserById(id)
+    },[id])
 
-    if(!userWithBlogs) {
+    if(!user) {
       return null;
     }
   
@@ -17,7 +25,7 @@ const User = () => {
     <div>
         <p>added blogs</p>
         <ul>
-            {userWithBlogs.map((item) => (
+            {user.blogs.map((item) => (
                 <li key={item.id}>{item.title}</li>
             ))}
         </ul>

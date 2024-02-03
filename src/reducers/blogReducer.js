@@ -35,7 +35,6 @@ export const initializeBlogs = () => {
     dispatch(setBlogs(blogs))
   }}
 
-
 //here I have to add user object
 export const createBlog = (blog) => {
   return async dispatch => {

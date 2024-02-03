@@ -4,12 +4,13 @@ import { showNotification } from '../reducers/notificationReducer'
 import { useParams } from 'react-router'
 import CommentForm from './CommentForm'
 import CommentList from './CommentList'
+import { useEffect, useState } from 'react'
+import blogService from '../services/blogs'
 
 const Blog = () => {
+  const [blog, setBlog] = useState(null)
   const id = useParams().id
   const user = useSelector((state) => state.user)
-  const blog = useSelector((state) => state.blogs.find((blog) => blog.id === id))
-
   const dispatch = useDispatch()
 
   const handleLikes = async () => {
@@ -34,10 +35,19 @@ const Blog = () => {
     }
   }
 
+  useEffect(() => {
+    const fetchBlogById = async (id) => {
+      const blog = await blogService.getBlogById(id)
+      console.log(blog);
+      setBlog(blog)
+    }
+
+    fetchBlogById(id)
+  },[id])
+
   if (!blog) {
     return null;
   }
-
 
   return (
     <div className="p-2 pl-1 border border-solid m-2">
