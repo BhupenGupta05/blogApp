@@ -35,7 +35,7 @@ const Blog = () => {
   }
 
   if (!blog) {
-    return <div>Loading...</div>;
+    return null;
   }
 
 

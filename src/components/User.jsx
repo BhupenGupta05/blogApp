@@ -8,6 +8,10 @@ const User = () => {
 
     const userWithBlogs = blogsWithUser.filter((blog) => blog.user.id === id)
     console.log((userWithBlogs))
+
+    if(!userWithBlogs) {
+      return null;
+    }
   
   return (
     <div>

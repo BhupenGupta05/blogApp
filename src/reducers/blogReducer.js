@@ -36,7 +36,7 @@ export const initializeBlogs = () => {
   }}
 
 
-//here i have to add user object
+//here I have to add user object
 export const createBlog = (blog) => {
   return async dispatch => {
     const newBlog = await blogService.create(blog)
