@@ -24,7 +24,14 @@ mongoose.connect(config.MONGODB_URL)
   })
 
 app.use(cors())
-app.use(express.static('dist'))
+// app.use(express.static('dist'))
+app.use(express.static('dist', {
+  setHeaders: (res, path) => {
+    if (path.endsWith('.js')) {
+      res.setHeader('Content-Type', 'application/javascript')
+    }
+  },
+}))
 app.use(express.json())
 app.use(middleware.tokenExtractor)
 app.use(middleware.requestLogger)
