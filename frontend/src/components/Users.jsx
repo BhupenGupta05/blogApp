@@ -10,9 +10,9 @@ const Users = () => {
       const userData = await userService.getUsers()
       setUsers(userData)
     }
-
     fetchUsers()
   }, [])
+
 
   return (
     <div className='flex flex-col mx-auto mt-12'>
