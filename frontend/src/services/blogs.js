@@ -1,6 +1,6 @@
 import axios from 'axios'
-const baseUrl = '/api/blogs'
-// const baseUrl = 'https://blogapp-backend-zatg.onrender.com/api/blogs'
+// const baseUrl = '/api/blogs'
+const baseUrl = 'https://blogapp-backend-zatg.onrender.com/api/blogs'
 
 let token = null
 
