@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 import { HashRouter as Router } from 'react-router-dom'
 import store from './store.js'
 import App from './App.jsx'
+import './App.css'
 import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(

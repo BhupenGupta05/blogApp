@@ -29,7 +29,7 @@ const BlogForm = ({ createBlog }) => {
 
   return (
     <div className='flex flex-col gap-2'>
-      <h2 className="text-2xl font-semibold mb-2">Create a new blog</h2>
+      <h2 className="text-2xl font-semibold mb-2">Pen down your thoughts</h2>
 
       <form onSubmit={addBlog}>
         <div>

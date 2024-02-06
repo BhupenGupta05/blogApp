@@ -15,6 +15,7 @@ import Home from './components/Home'
 import Users from './components/Users'
 import User from './components/User'
 import Login from './components/Login'
+import Footer from './components/Footer'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -54,20 +55,20 @@ const App = () => {
   const shouldRenderBlogForm = location.pathname === '/blogs'
 
   const blogForm = () => (
-    <Togglable buttonLabel='New Blog' ref={blogFormRef}>
+    <Togglable buttonLabel='Wanna share something...' ref={blogFormRef}>
       <BlogForm createBlog={addBlog}/>
     </Togglable>
   )
 
   return (
-    <div className='flex flex-col m-4'>
+    <div className='flex flex-col min-h-screen'>
       <Notification />
       <Menu />
 
       {shouldRenderBlogForm
       && user
       &&
-      <div className='m-4'>
+      <div className='m-8'>
         {blogForm()}
       </div>
       }
@@ -80,6 +81,8 @@ const App = () => {
         <Route path='/users/:id' element={<User />} />
         <Route path='/login' element={<Login />} />
       </Routes>
+      
+      <Footer />
 
     </div>
   )
