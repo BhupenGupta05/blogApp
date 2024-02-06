@@ -1,16 +1,16 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router';
-import { fetchComments } from '../reducers/commentReducer';
-import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux'
+import { useParams } from 'react-router'
+import { fetchComments } from '../reducers/commentReducer'
+import { useEffect } from 'react'
 
 const CommentList = () => {
-  const id = useParams().id;
-  const dispatch = useDispatch();
-  const blogComments = useSelector((state) => state.comments);
+  const id = useParams().id
+  const dispatch = useDispatch()
+  const blogComments = useSelector((state) => state.comments)
 
   useEffect(() => {
-    dispatch(fetchComments(id));
-  }, [dispatch, id]);
+    dispatch(fetchComments(id))
+  }, [dispatch, id])
 
   return (
     <div className='mt-4'>
@@ -21,7 +21,7 @@ const CommentList = () => {
         ))}
       </ul>
     </div>
-  );
-};
+  )
+}
 
-export default CommentList;
+export default CommentList

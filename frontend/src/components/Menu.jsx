@@ -1,25 +1,25 @@
-import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import blogService from '../services/blogs';
-import { clearUser } from '../reducers/userReducer';
-import { FiMenu, FiX } from 'react-icons/fi';
+import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
+import blogService from '../services/blogs'
+import { clearUser } from '../reducers/userReducer'
+import { FiMenu, FiX } from 'react-icons/fi'
 
 const Menu = () => {
-  const user = useSelector((state) => state.user);
-  const dispatch = useDispatch();
-  const [showMenu, setShowMenu] = useState(false);
+  const user = useSelector((state) => state.user)
+  const dispatch = useDispatch()
+  const [showMenu, setShowMenu] = useState(false)
 
   const handleLogout = () => {
-    window.localStorage.removeItem('loggedBlogAppUser');
-    dispatch(clearUser());
-    blogService.setToken(null);
-    setShowMenu(false); // Close the menu after logout
-  };
+    window.localStorage.removeItem('loggedBlogAppUser')
+    dispatch(clearUser())
+    blogService.setToken(null)
+    setShowMenu(false) // Close the menu after logout
+  }
 
   const toggleMenu = () => {
-    setShowMenu(!showMenu);
-  };
+    setShowMenu(!showMenu)
+  }
 
   return (
     <div className="relative">
@@ -48,7 +48,7 @@ const Menu = () => {
         </div>
       </nav>
     </div>
-  );
-};
+  )
+}
 
-export default Menu;
+export default Menu

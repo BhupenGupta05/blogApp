@@ -1,50 +1,50 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { deleteBlog, updateBlog } from '../reducers/blogReducer';
-import { showNotification } from '../reducers/notificationReducer';
-import { useParams } from 'react-router';
-import CommentForm from './CommentForm';
-import CommentList from './CommentList';
-import { useEffect, useState } from 'react';
-import blogService from '../services/blogs';
+import { useDispatch, useSelector } from 'react-redux'
+import { deleteBlog, updateBlog } from '../reducers/blogReducer'
+import { showNotification } from '../reducers/notificationReducer'
+import { useParams } from 'react-router'
+import CommentForm from './CommentForm'
+import CommentList from './CommentList'
+import { useEffect, useState } from 'react'
+import blogService from '../services/blogs'
 
 const Blog = () => {
-  const [blog, setBlog] = useState(null);
-  const id = useParams().id;
-  const user = useSelector((state) => state.user);
-  const dispatch = useDispatch();
+  const [blog, setBlog] = useState(null)
+  const id = useParams().id
+  const user = useSelector((state) => state.user)
+  const dispatch = useDispatch()
 
   const handleLikes = async () => {
     try {
-      const updatedBlog = { ...blog, likes: blog.likes + 1 };
-      dispatch(updateBlog(updatedBlog.id, updatedBlog));
-      setBlog(updatedBlog);
+      const updatedBlog = { ...blog, likes: blog.likes + 1 }
+      dispatch(updateBlog(updatedBlog.id, updatedBlog))
+      setBlog(updatedBlog)
     } catch (error) {
-      console.log('Error updating likes:', error);
+      console.log('Error updating likes:', error)
     }
-  };
+  }
 
   const handleDelete = async () => {
     if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
       try {
-        dispatch(deleteBlog(blog.id));
-        dispatch(showNotification(`Deleted blog: ${blog.title}`, 3));
+        dispatch(deleteBlog(blog.id))
+        dispatch(showNotification(`Deleted blog: ${blog.title}`, 3))
       } catch (error) {
-        console.log('Error deleting blog:', error);
+        console.log('Error deleting blog:', error)
       }
     }
-  };
+  }
 
   useEffect(() => {
     const fetchBlogById = async (id) => {
-      const blog = await blogService.getBlogById(id);
-      setBlog(blog);
-    };
+      const blog = await blogService.getBlogById(id)
+      setBlog(blog)
+    }
 
-    fetchBlogById(id);
-  }, [id]);
+    fetchBlogById(id)
+  }, [id])
 
   if (!blog) {
-    return <div className='ml-4'>Loading...</div>;
+    return <div className='ml-4'>Loading...</div>
   }
 
   return (
@@ -62,7 +62,7 @@ const Blog = () => {
       <CommentForm />
       <CommentList />
     </div>
-  );
-};
+  )
+}
 
-export default Blog;
+export default Blog

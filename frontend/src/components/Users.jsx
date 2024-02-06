@@ -1,18 +1,18 @@
-import { Link } from 'react-router-dom';
-import userService from '../services/users';
-import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom'
+import userService from '../services/users'
+import { useEffect, useState } from 'react'
 
 const Users = () => {
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState([])
 
   useEffect(() => {
     const fetchUsers = async () => {
-      const userData = await userService.getUsers();
-      setUsers(userData);
-    };
+      const userData = await userService.getUsers()
+      setUsers(userData)
+    }
 
-    fetchUsers();
-  }, []);
+    fetchUsers()
+  }, [])
 
   return (
     <div className='flex flex-col mx-auto mt-12'>
@@ -30,7 +30,7 @@ const Users = () => {
         ))}
       </ul>
     </div>
-  );
-};
+  )
+}
 
-export default Users;
+export default Users

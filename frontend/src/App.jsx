@@ -81,7 +81,7 @@ const App = () => {
         <Route path='/users/:id' element={<User />} />
         <Route path='/login' element={<Login />} />
       </Routes>
-      
+
       <Footer />
 
     </div>

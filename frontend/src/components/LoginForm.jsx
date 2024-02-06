@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
-import { useNavigate } from 'react-router';
+import PropTypes from 'prop-types'
+import { useNavigate } from 'react-router'
 
 const LoginForm = ({
   handleSubmit,
@@ -8,11 +8,11 @@ const LoginForm = ({
   setUsername,
   setPassword
 }) => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const handleCancel = () => {
-    navigate('/');
-  };
+    navigate('/')
+  }
 
   return (
     <div className='flex flex-col justify-center items-center mt-4'>
@@ -50,8 +50,8 @@ const LoginForm = ({
         </form>
       </div>
     </div>
-  );
-};
+  )
+}
 
 LoginForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
@@ -59,6 +59,6 @@ LoginForm.propTypes = {
   password: PropTypes.string.isRequired,
   setUsername: PropTypes.func.isRequired,
   setPassword: PropTypes.func.isRequired
-};
+}
 
-export default LoginForm;
+export default LoginForm

@@ -1,12 +1,12 @@
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { LoremPicsum } from 'react-lorem-picsum';
+import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
+import { LoremPicsum } from 'react-lorem-picsum'
 
 const Blogs = () => {
-  const blogs = useSelector((state) => state.blogs);
+  const blogs = useSelector((state) => state.blogs)
 
   if (!blogs) {
-    return <div className='ml-4'>Loading...</div>;
+    return <div className='ml-4'>Loading...</div>
   }
 
   return (
@@ -39,7 +39,7 @@ const Blogs = () => {
         </div>
       ))}
     </div>
-  );
-};
+  )
+}
 
-export default Blogs;
+export default Blogs
