@@ -23,9 +23,9 @@ const Menu = () => {
 
   return (
     <div className="relative">
-      <nav className="flex items-center justify-between bg-transparent min-h-[8vh] p-4">
+      <nav className="flex items-center justify-around bg-transparent min-h-[8vh] p-4">
         <div className="flex items-center">
-          <Link to="/" className="text-lg font-bold">Writopia</Link>
+          <Link to="/" className="text-3xl font-bold">Writopia</Link>
         </div>
 
         <div className="md:hidden">
